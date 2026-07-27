@@ -10,189 +10,20 @@
 
 <body>
 
-    <form id="loginForm">
+<form id="loginForm">
 
-        <h1>Bestify Login</h1>
+    <h1>Bestify Login</h1>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Email"
-            required
-        >
+    <input type="email" id="email" placeholder="Email" required>
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-        >
+    <input type="password" id="password" placeholder="Password" required>
 
-        <button type="submit">Login</button>
+    <button type="submit">Login</button>
 
-    </form>
+</form>
 
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="login.js"></script>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="login.js"></script>
 
-</body>
-</html>adding: 10px 0;
-      background: none;
-      border: none;
-      font-weight: 600;
-      color: var(--md-on-surface);
-      opacity: 0.6;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-    }
-    .auth-tab.active {
-      opacity: 1;
-      border-bottom-color: var(--md-primary);
-      color: var(--md-primary);
-    }
-    .form-group {
-      margin-bottom: 16px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
-      color: var(--md-on-surface);
-    }
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--md-border);
-      background: var(--md-surface);
-      color: var(--md-on-surface);
-      outline: none;
-      transition: var(--transition);
-    }
-    .form-group input:focus {
-      border-color: var(--md-primary);
-    }
-    .auth-btn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-    }
-    .auth-msg {
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-      display: none;
-    }
-    .auth-msg.error {
-      background: rgba(255, 82, 82, 0.1);
-      color: #ff5252;
-      border: 1px solid #ff5252;
-      display: block;
-    }
-    .auth-msg.success {
-      background: rgba(76, 175, 80, 0.1);
-      color: #4caf50;
-      border: 1px solid #4caf50;
-      display: block;
-    }
-    .text-link {
-      color: var(--md-primary);
-      text-decoration: none;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: inline-block;
-      margin-top: 8px;
-    }
-  </style>
-</head>
-<body>
-
-  <header class="navbar">
-    <div class="logo">StoreBrand</div>
-    <button id="theme-toggle" class="md-btn md-btn-outlined">🌓 Mode</button>
-  </header>
-
-  <main>
-    <div class="auth-container">
-      <div id="auth-alert" class="auth-msg"></div>
-
-      <!-- Tab Buttons -->
-      <div class="auth-tabs" id="tab-header">
-        <button class="auth-tab active" onclick="switchTab('login')">Login</button>
-        <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
-      </div>
-
-      <!-- LOGIN FORM -->
-      <form id="login-form">
-        <div class="form-group">
-          <label for="login-email">Email Address</label>
-          <input type="email" id="login-email" required placeholder="name@example.com">
-        </div>
-        <div class="form-group">
-          <label for="login-password">Password</label>
-          <input type="password" id="login-password" required placeholder="••••••••">
-        </div>
-        <button type="submit" class="md-btn auth-btn">Login</button>
-        <span class="text-link" onclick="switchTab('forgot')">Forgot Password?</span>
-      </form>
-
-      <!-- SIGN UP FORM -->
-      <form id="signup-form" style="display: none;">
-        <div class="form-group">
-          <label for="signup-name">Full Name</label>
-          <input type="text" id="signup-name" required placeholder="John Doe">
-        </div>
-        <div class="form-group">
-          <label for="signup-phone">Phone Number</label>
-          <input type="tel" id="signup-phone" required placeholder="+91 9876543210">
-        </div>
-        <div class="form-group">
-          <label for="signup-email">Email Address</label>
-          <input type="email" id="signup-email" required placeholder="name@example.com">
-        </div>
-        <div class="form-group">
-          <label for="signup-password">Password</label>
-          <input type="password" id="signup-password" required placeholder="At least 6 characters">
-        </div>
-        <button type="submit" class="md-btn auth-btn">Create Account</button>
-      </form>
-
-      <!-- FORGOT PASSWORD FORM -->
-      <form id="forgot-form" style="display: none;">
-        <p style="font-size:0.9rem; margin-bottom:16px;">Enter your registered email address to receive a password reset link.</p>
-        <div class="form-group">
-          <label for="forgot-email">Email Address</label>
-          <input type="email" id="forgot-email" required placeholder="name@example.com">
-        </div>
-        <button type="submit" class="md-btn auth-btn">Send Reset Link</button>
-        <span class="text-link" onclick="switchTab('login')">← Back to Login</span>
-      </form>
-    </div>
-  </main>
-
-  <script src="assets/js/theme.js"></script>
-  <script type="module" src="assets/js/auth.js"></script>
-  <script>
-    function switchTab(tab) {
-      const alert = document.getElementById('auth-alert');
-      alert.className = 'auth-msg';
-      alert.textContent = '';
-
-      document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
-      document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none';
-      document.getElementById('forgot-form').style.display = tab === 'forgot' ? 'block' : 'none';
-
-      const tabs = document.querySelectorAll('.auth-tab');
-      if (tab === 'forgot') {
-        document.getElementById('tab-header').style.display = 'none';
-      } else {
-        document.getElementById('tab-header').style.display = 'flex';
-        tabs[0].classList.toggle('active', tab === 'login');
-        tabs[1].classList.toggle('active', tab === 'signup');
-      }
-    }
-  </script>
 </body>
 </html>
