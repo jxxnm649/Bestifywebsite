@@ -7,7 +7,7 @@ import {
 
 const productsDiv = document.getElementById("products");
 console.log("Products page loaded");
-async function loadProducts() {
+async function loadProducts(console.log(querySnapshot.size);) {
 
     const querySnapshot = await getDocs(collection(db, "products"));
 
