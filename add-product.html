@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Add Product</h1>
+
+<form id="productForm">
+
+    <input
+        type="text"
+        id="productName"
+        placeholder="Product Name"
+        required
+    >
+
+    <input
+        type="number"
+        id="price"
+        placeholder="Price"
+        required
+    >
+
+    <textarea
+        id="description"
+        placeholder="Description"
+    ></textarea>
+
+    <button type="submit">Add Product</button>
+
+</form>
+
+<script type="module" src="add-product.js"></script>
+
+</body>
+</html>
