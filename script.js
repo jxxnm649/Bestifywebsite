@@ -16,18 +16,15 @@ form.addEventListener("submit", async (event) => {
 
     try {
 
-        const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-        await setDoc(doc(db, "users", userCredential.user.uid), {
-            name: name,
-            email: email
-        });
+await setDoc(doc(db, "users", userCredential.user.uid), {
+    name: document.getElementById("name").value,
+    email: email,
+    createdAt: new Date()
+});
 
-        alert("Registration Successful!");
+alert("Registration Successful!");
 
     } catch (error) {
         alert(error.message);
