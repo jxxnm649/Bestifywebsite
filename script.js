@@ -18,7 +18,7 @@ form.addEventListener("submit", async (event) => {
 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-await setDoc(doc(db, "users", userCredential.user.uid), {
+await setDoc(doc(db, "test", "abc123"), {
     name: document.getElementById("name").value,
     email: email,
     createdAt: new Date()
