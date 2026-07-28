@@ -6,7 +6,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const productsDiv = document.getElementById("products");
-console.log("Products page loaded");
+alert(querySnapshot.size);
 async function loadProducts(console.log(querySnapshot.size);) {
 
     const querySnapshot = await getDocs(collection(db, "products"));
