@@ -1,5 +1,6 @@
 import { db } from "./firebase.js";
 
+alert("products.js loaded");
 import {
   collection,
   getDocs
