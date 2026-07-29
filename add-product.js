@@ -11,7 +11,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const form = document.getElementById("productForm");
-image: document.getElementById("image").value,
   
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
