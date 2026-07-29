@@ -21,7 +21,7 @@ async function loadProducts() {
 
       productsDiv.innerHTML += `
 <div style="border:1px solid #ccc;padding:15px;margin:10px;border-radius:10px;">
-    <img src="${https://picsum.photos/300}" width="150">
+    <img src="${https://i.ibb.co/kVf72jbJ/20260725-180831.jpg}" width="150">
     <h2>${product.productName}</h2>
     <p>₹${product.price}</p>
     <p>${product.description}</p>
