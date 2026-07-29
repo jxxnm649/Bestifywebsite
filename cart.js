@@ -15,17 +15,22 @@ const cartDiv = document.getElementById("cartItems");
 
 onAuthStateChanged(auth, async (user) => {
 
+  alert("Auth State Changed");
+
   if (!user) {
     alert("Please Login");
     return;
   }
 
+  alert(user.email);
+
   const querySnapshot = await getDocs(
     collection(db, "users", user.uid, "cart")
   );
 
-  querySnapshot.forEach((doc) => {
+  alert("Cart Products: " + querySnapshot.size);
 
+  querySnapshot.forEach((doc) => {
     const product = doc.data();
 
     cartDiv.innerHTML += `
@@ -39,5 +44,7 @@ onAuthStateChanged(auth, async (user) => {
       </div>
     `;
   });
+
+});
 
 });
