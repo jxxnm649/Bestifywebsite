@@ -21,12 +21,25 @@ alert(querySnapshot.size);
       const product = doc.data();
 
       productsDiv.innerHTML += `
-  <div style="border:1px solid #ccc;padding:15px;margin:10px;">
-    <img src="https://i.ibb.co/kVf72jbJ/20260725-180831.jpg" width="200">
-    <h2>${product.productName}</h2>
-    <p>₹${product.price}</p>
-    <p>${product.description}</p>
-  </div>
+<div class="card">
+
+<img src="${product.image}">
+
+<div class="card-content">
+
+<h2>${product.productName}</h2>
+
+<p>${product.category}</p>
+
+<p class="price">₹${product.price}</p>
+
+<p>${product.description}</p>
+
+<button>Add to Cart</button>
+
+</div>
+
+</div>
 `;
     });
 
