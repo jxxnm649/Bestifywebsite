@@ -13,7 +13,8 @@ async function loadProducts() {
     alert("JS Loaded");
 
     const querySnapshot = await getDocs(collection(db, "products"));
-
+  console.log(querySnapshot.docs);
+alert(querySnapshot.size);
     alert("Products: " + querySnapshot.size);
 
     querySnapshot.forEach((doc) => {
