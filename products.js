@@ -20,12 +20,13 @@ async function loadProducts() {
       const product = doc.data();
 
       productsDiv.innerHTML += `
-        <div style="border:1px solid #ccc;padding:15px;margin:10px;">
-          <h2>${product.productName}</h2>
-          <p>₹${product.price}</p>
-          <p>${product.description}</p>
-        </div>
-      `;
+<div style="border:1px solid #ccc;padding:15px;margin:10px;border-radius:10px;">
+    <img src="${product.image}" width="150">
+    <h2>${product.productName}</h2>
+    <p>₹${product.price}</p>
+    <p>${product.description}</p>
+</div>
+`;
     });
 
   } catch (error) {
