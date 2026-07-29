@@ -1,11 +1,14 @@
-import { db } from "./firebase.js";
+import { auth } from "./firebase.js";
 
-alert("products.js loaded");
 import {
-  collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
+import {
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 const productsDiv = document.getElementById("products");
 
 async function loadProducts() {
