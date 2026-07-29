@@ -35,7 +35,7 @@ alert(querySnapshot.size);
 
 <p>${product.description}</p>
 
-<button>Add to Cart</button>
+<button onclick="addToCart('${doc.id}')">Add to Cart</button>
 
 </div>
 
@@ -49,3 +49,7 @@ alert(querySnapshot.size);
 }
 
 loadProducts();
+
+window.addToCart = async function(productId) {
+    alert("Product ID: " + productId);
+};
