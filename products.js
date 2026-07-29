@@ -55,6 +55,29 @@ productsDiv.innerHTML += `
 
 loadProducts();
 
-window.addToCart = async function(productId) {
-    alert("Product ID: " + productId);
-};
+window.addToCart = async function(id) {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please Login First");
+    return;
+  }
+
+  const productRef = doc(db, "products", id);
+  const productSnap = await getDoc(productRef);
+
+  if (!productSnap.exists()) {
+    alert("Product Not Found");
+    return;
+  }
+
+  const product = productSnap.data();
+
+  await setDoc(
+    doc(db, "users", user.uid, "cart", id),
+    product
+  );
+
+  alert("Added To Cart ✅");
+}
