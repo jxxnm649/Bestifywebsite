@@ -1,3 +1,4 @@
+alert("Cart JS Loaded");
 import { auth, db } from "./firebase.js";
 
 import { onAuthStateChanged }
