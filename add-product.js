@@ -1,6 +1,11 @@
 import { db } from "./firebase.js";
 
 import {
+    doc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+import {
   collection,
   addDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
