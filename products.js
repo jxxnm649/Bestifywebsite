@@ -25,6 +25,26 @@ alert(querySnapshot.size);
 
     querySnapshot.forEach((doc) => {
       const product = doc.data();
+      productsDiv.innerHTML += `
+<div class="card">
+    <img src="${product.image}">
+
+    <div class="card-content">
+        <h2>${product.productName}</h2>
+
+        <p>${product.category}</p>
+
+        <p class="price">₹${product.price}</p>
+
+        <p>${product.description}</p>
+
+        <button onclick="addToCart('${doc.id}')">
+            Add to Cart
+        </button>
+    </div>
+</div>
+`;
+      });
   
 <img src="${product.image}">
 
