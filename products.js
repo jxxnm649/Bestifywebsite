@@ -19,8 +19,10 @@ alert(querySnapshot.size);
 
     querySnapshot.forEach((doc) => {
       const product = doc.data();
-
-      productsDiv.innerHTML += `
+productsDiv.innerHTML += `
+...
+`;
+      productsDiv.innerHTML 
 <div class="card">
 
 <img src="${product.image}">
