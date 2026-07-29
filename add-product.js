@@ -22,14 +22,14 @@ form.addEventListener("submit", async (event) => {
 
     try {
 
-        await setDoc(doc(db,"products",Date.now().toString()),{
+        await setDoc(doc(db, "products", Date.now().toString()), {
 
- productName: productName,
- price: price,
- description: description,
- image: document.getElementById("image").value,
- category: document.getElementById("category").value,
- createdAt:new Date()
+    productName: productName,
+    price: price,
+    description: description,
+    image: document.getElementById("image").value,
+    category: document.getElementById("category").value,
+    createdAt: new Date()
 
 });
 
