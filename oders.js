@@ -1,59 +1,85 @@
 import { auth, db } from "./firebase.js";
 
-import { onAuthStateChanged }
-from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 import {
   collection,
   getDocs,
   query,
   where
-}
-from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const ordersDiv = document.getElementById("orders");
 
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
+    alert("Please Login");
     window.location.href = "login.html";
     return;
   }
 
-  const q = query(
-    collection(db, "orders"),
-    where("userId", "==", user.uid)
-  );
+  try {
 
-  const querySnapshot = await getDocs(q);
+    const q = query(
+      collection(db, "orders"),
+      where("userId", "==", user.uid)
+    );
 
-  if (querySnapshot.empty) {
-    ordersDiv.innerHTML = "<h2>No Orders Found</h2>";
-    return;
-  }
+    const querySnapshot = await getDocs(q);
 
-  querySnapshot.forEach((docSnap) => {
+    ordersDiv.innerHTML = "";
 
-    const order = docSnap.data();
+    if (querySnapshot.empty) {
+      ordersDiv.innerHTML = "<h2>No Orders Found 📦</h2>";
+      return;
+    }
 
-    ordersDiv.innerHTML += `
-      <div class="card">
+    querySnapshot.forEach((docSnap) => {
 
-        <div class="card-content">
+      const order = docSnap.data();
 
-          <h2>${order.customerName}</h2>
+      let productList = "";
 
-          <p>${order.mobile}</p>
+      order.products.forEach((product) => {
+        productList += `
+          <li>
+            ${product.productName} - ₹${product.price}
+          </li>
+        `;
+      });
 
-          <p>${order.address}</p>
+      ordersDiv.innerHTML += `
+        <div class="card">
 
-          <p><b>Products:</b> ${order.products.length}</p>
+          <div class="card-content">
+
+            <h2>${order.customerName}</h2>
+
+            <p><b>Mobile:</b> ${order.mobile}</p>
+
+            <p><b>Address:</b> ${order.address}</p>
+
+            <p><b>Total Products:</b> ${order.products.length}</p>
+
+            <ul>
+              ${productList}
+            </ul>
+
+          </div>
 
         </div>
+      `;
 
-      </div>
-    `;
+    });
 
-  });
+  } catch (error) {
+
+    alert(error.message);
+    console.log(error);
+
+  }
 
 });
