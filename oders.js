@@ -13,13 +13,19 @@ import {
 
 const ordersDiv = document.getElementById("orders");
 
+alert("Orders JS Loaded");
+
 onAuthStateChanged(auth, async (user) => {
+
+  alert("Auth State Changed");
 
   if (!user) {
     alert("Please Login");
     window.location.href = "login.html";
     return;
   }
+
+  alert("UID: " + user.uid);
 
   try {
 
@@ -29,6 +35,8 @@ onAuthStateChanged(auth, async (user) => {
     );
 
     const querySnapshot = await getDocs(q);
+
+    alert("Orders Found: " + querySnapshot.size);
 
     ordersDiv.innerHTML = "";
 
@@ -41,36 +49,33 @@ onAuthStateChanged(auth, async (user) => {
 
       const order = docSnap.data();
 
-      let productList = "";
+      let productsHTML = "";
 
       order.products.forEach((product) => {
-        productList += `
-          <li>
-            ${product.productName} - ₹${product.price}
-          </li>
+
+        productsHTML += `
+          <div class="card" style="margin-bottom:20px;">
+            <img src="${product.image}" style="width:100%;height:220px;object-fit:cover;">
+
+            <div class="card-content">
+              <h2>${product.productName}</h2>
+              <p class="price">₹${product.price}</p>
+              <p>${product.description}</p>
+            </div>
+
+          </div>
         `;
+
       });
 
       ordersDiv.innerHTML += `
-        <div class="card">
+        <h2>${order.customerName}</h2>
+        <p><b>Mobile:</b> ${order.mobile}</p>
+        <p><b>Address:</b> ${order.address}</p>
 
-          <div class="card-content">
+        ${productsHTML}
 
-            <h2>${order.customerName}</h2>
-
-            <p><b>Mobile:</b> ${order.mobile}</p>
-
-            <p><b>Address:</b> ${order.address}</p>
-
-            <p><b>Total Products:</b> ${order.products.length}</p>
-
-            <ul>
-              ${productList}
-            </ul>
-
-          </div>
-
-        </div>
+        <hr>
       `;
 
     });
