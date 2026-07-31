@@ -39,22 +39,26 @@ onAuthStateChanged(auth, async (user) => {
       const product = doc.data();
 
       cartDiv.innerHTML += `
-        <div class="card">
+<div class="card">
 
-          <img src="${product.image}" alt="${product.productName}">
+  <img src="${product.image}">
 
-          <div class="card-content">
+  <div class="card-content">
 
-            <h2>${product.productName}</h2>
+    <h2>${product.productName}</h2>
 
-            <p>₹${product.price}</p>
+    <p class="price">₹${product.price}</p>
 
-            <p>${product.description}</p>
+    <p>${product.description}</p>
 
-          </div>
+    <button onclick="removeFromCart('${doc.id}')">
+      Remove
+    </button>
 
-        </div>
-      `;
+  </div>
+
+</div>
+`;
 
     });
 
