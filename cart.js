@@ -70,3 +70,17 @@ onAuthStateChanged(auth, async (user) => {
   }
 
 });
+
+window.removeFromCart = async function(id) {
+
+  const user = auth.currentUser;
+
+  await deleteDoc(
+    doc(db, "users", user.uid, "cart", id)
+  );
+
+  alert("Product Removed ✅");
+
+  location.reload();
+
+};
