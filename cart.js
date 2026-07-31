@@ -51,8 +51,8 @@ onAuthStateChanged(auth, async (user) => {
     <p>${product.description}</p>
 
     <button onclick="removeFromCart('${doc.id}')">
-      Remove
-    </button>
+  Remove
+</button>
 
   </div>
 
