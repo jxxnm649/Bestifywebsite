@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Checkout</h1>
+
+<form id="checkoutForm">
+
+  <input
+    type="text"
+    id="customerName"
+    placeholder="Full Name"
+    required
+  >
+
+  <input
+    type="tel"
+    id="mobile"
+    placeholder="Mobile Number"
+    required
+  >
+
+  <textarea
+    id="address"
+    placeholder="Delivery Address"
+    required
+  ></textarea>
+
+  <button type="submit">
+    Place Order
+  </button>
+
+</form>
+
+<script type="module" src="checkout.js"></script>
+
+</body>
+</html>
