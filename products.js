@@ -1,4 +1,3 @@
-let allProducts = [];
 import { auth, db } from "./firebase.js";
 
 import {
@@ -12,71 +11,48 @@ import {
 const productsDiv = document.getElementById("products");
 const searchInput = document.getElementById("search");
 
+let allProducts = [];
+
 async function loadProducts() {
+
   try {
 
     const querySnapshot = await getDocs(collection(db, "products"));
 
-    productsDiv.innerHTML = "";
+    allProducts = [];
 
     querySnapshot.forEach((docSnap) => {
-    
+
       const product = docSnap.data();
-  const product = doc.data();
+
       allProducts.push({
-  id: doc.id,
-  ...product
-});
-      
-      productsDiv.innerHTML += `
-        <div class="card">
-
-          <img src="${product.image}" alt="${product.productName}">
-
-          <div class="card-content">
-
-            <h2>${product.productName}</h2>
-
-            <p>${product.category}</p>
-
-            <p class="price">₹${product.price}</p>
-
-            <p>${product.description}</p>
-
-            <button onclick="addToCart('${docSnap.id}')">
-              Add to Cart
-            </button>
-
-          </div>
-
-        </div>
-      `;
+        id: docSnap.id,
+        ...product
+      });
 
     });
 
+    displayProducts(allProducts);
+
   } catch (error) {
+
     alert(error.message);
     console.log(error);
+
   }
+
 }
 
-loadProducts();
-searchInput.addEventListener("input", () => {
-
-  const keyword = searchInput.value.toLowerCase();
+function displayProducts(products) {
 
   productsDiv.innerHTML = "";
 
-  allProducts
-    .filter(product =>
-      product.productName.toLowerCase().includes(keyword)
-    )
-    .forEach(product => {
+  products.forEach((product) => {
 
-      productsDiv.innerHTML += `
+    productsDiv.innerHTML += `
       <div class="card">
 
-        <img src="${product.image}">
+        <img src="${product.image}" alt="${product.productName}">
 
         <div class="card-content">
 
@@ -95,38 +71,58 @@ searchInput.addEventListener("input", () => {
         </div>
 
       </div>
-      `;
+    `;
 
-    });
+  });
+
+}
+
+loadProducts();
+
+searchInput.addEventListener("input", () => {
+
+  const keyword = searchInput.value.toLowerCase();
+
+  const filteredProducts = allProducts.filter(product =>
+    product.productName.toLowerCase().includes(keyword) ||
+    product.category.toLowerCase().includes(keyword)
+  );
+
+  displayProducts(filteredProducts);
 
 });
 
 window.addToCart = async function(id) {
 
-  alert("Adding Product ID: " + id);
+  try {
 
-  const user = auth.currentUser;
+    const user = auth.currentUser;
 
-  if (!user) {
-    alert("Please Login First");
-    return;
+    if (!user) {
+      alert("Please Login First");
+      return;
+    }
+
+    const productRef = doc(db, "products", id);
+    const productSnap = await getDoc(productRef);
+
+    if (!productSnap.exists()) {
+      alert("Product Not Found");
+      return;
+    }
+
+    await setDoc(
+      doc(db, "users", user.uid, "cart", id),
+      productSnap.data()
+    );
+
+    alert("Added To Cart ✅");
+
+  } catch (error) {
+
+    alert(error.message);
+    console.log(error);
+
   }
 
-  const productRef = doc(db, "products", id);
-  const productSnap = await getDoc(productRef);
-
-  if (!productSnap.exists()) {
-    alert("Product Not Found");
-    return;
-  }
-
-  const product = productSnap.data();
-
-  await setDoc(
-    doc(db, "users", user.uid, "cart", id),
-    product
-  );
-
-  alert("Saved to Firestore ✅");
-  alert("Added To Cart ✅");
 };
