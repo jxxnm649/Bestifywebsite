@@ -74,12 +74,16 @@ window.removeFromCart = async function(id) {
 
   const user = auth.currentUser;
 
+  if (!user) {
+    alert("Please Login");
+    return;
+  }
+
   await deleteDoc(
     doc(db, "users", user.uid, "cart", id)
   );
 
-  alert("Product Removed ✅");
+  alert("Removed Successfully ✅");
 
   location.reload();
-
 };
