@@ -6,10 +6,9 @@ from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 import {
   collection,
   getDocs,
-  deleteDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";const cartDiv = document.getElementById("cartItems");
-
+  doc,
+  deleteDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 alert("Cart JS Loaded");
 
 onAuthStateChanged(auth, async (user) => {
