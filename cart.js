@@ -5,10 +5,10 @@ from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 import {
   collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-const cartDiv = document.getElementById("cartItems");
+  getDocs,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";const cartDiv = document.getElementById("cartItems");
 
 alert("Cart JS Loaded");
 
