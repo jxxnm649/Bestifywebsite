@@ -20,9 +20,14 @@ async function loadProducts() {
     productsDiv.innerHTML = "";
 
     querySnapshot.forEach((docSnap) => {
-
+    
       const product = docSnap.data();
-
+  const product = doc.data();
+      allProducts.push({
+  id: doc.id,
+  ...product
+});
+      
       productsDiv.innerHTML += `
         <div class="card">
 
@@ -56,6 +61,45 @@ async function loadProducts() {
 }
 
 loadProducts();
+searchInput.addEventListener("input", () => {
+
+  const keyword = searchInput.value.toLowerCase();
+
+  productsDiv.innerHTML = "";
+
+  allProducts
+    .filter(product =>
+      product.productName.toLowerCase().includes(keyword)
+    )
+    .forEach(product => {
+
+      productsDiv.innerHTML += `
+      <div class="card">
+
+        <img src="${product.image}">
+
+        <div class="card-content">
+
+          <h2>${product.productName}</h2>
+
+          <p>${product.category}</p>
+
+          <p class="price">₹${product.price}</p>
+
+          <p>${product.description}</p>
+
+          <button onclick="addToCart('${product.id}')">
+            Add To Cart
+          </button>
+
+        </div>
+
+      </div>
+      `;
+
+    });
+
+});
 
 window.addToCart = async function(id) {
 
