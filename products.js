@@ -57,6 +57,8 @@ loadProducts();
 
 window.addToCart = async function(id) {
 
+  alert("Adding Product ID: " + id);
+
   const user = auth.currentUser;
 
   if (!user) {
@@ -64,30 +66,21 @@ window.addToCart = async function(id) {
     return;
   }
 
-  try {
+  const productRef = doc(db, "products", id);
+  const productSnap = await getDoc(productRef);
 
-    const productRef = doc(db, "products", id);
-
-    const productSnap = await getDoc(productRef);
-
-    if (!productSnap.exists()) {
-      alert("Product Not Found");
-      return;
-    }
-
-    const product = productSnap.data();
-
-    await setDoc(
-      doc(db, "users", user.uid, "cart", id),
-      product
-    );
-
-    alert("Added To Cart ✅");
-
-  } catch (error) {
-
-    alert(error.message);
-
+  if (!productSnap.exists()) {
+    alert("Product Not Found");
+    return;
   }
 
+  const product = productSnap.data();
+
+  await setDoc(
+    doc(db, "users", user.uid, "cart", id),
+    product
+  );
+
+  alert("Saved to Firestore ✅");
+  alert("Added To Cart ✅");
 };
