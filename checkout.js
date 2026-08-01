@@ -52,14 +52,18 @@ form.addEventListener("submit", async (e) => {
 
     await addDoc(collection(db, "orders"), {
 
-      userId: currentUser.uid,
-      customerName,
-      mobile,
-      address,
-      products,
-      createdAt: new Date()
+  userId: currentUser.uid,
+  customerName,
+  mobile,
+  address,
+  products,
 
-    });
+  status: "Pending",
+  total: products.reduce((sum, item) => sum + Number(item.price), 0),
+
+  createdAt: new Date()
+
+});
 
     for (const docSnap of cartSnapshot.docs) {
       await deleteDoc(
