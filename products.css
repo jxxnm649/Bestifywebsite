@@ -1,26 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bestify Products</title>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+}
 
-  <link rel="stylesheet" href="products.css">
-</head>
+h1{
+    text-align:center;
+    margin:20px 0;
+}
 
-<body>
+#search{
+    width:90%;
+    max-width:500px;
+    display:block;
+    margin:20px auto;
+    padding:12px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
 
-<h1>Bestify Products</h1>
+#products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+}
 
-<input
-  type="text"
-  id="search"
-  placeholder="Search Products..."
->
+.card{
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
 
-<div id="products" class="products-grid"></div>
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
 
-<script type="module" src="products.js"></script>
+.card-content{
+    padding:15px;
+}
 
-</body>
-</html>
+.price{
+    color:green;
+    font-size:20px;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
