@@ -8,54 +8,77 @@ import {
   collection,
   getDocs,
   doc,
-  getdoc,
+  getDoc,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const ordersDiv = document.getElementById("orders");
 
+alert("Admin JS Loaded");
+
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
+    alert("Please Login");
     window.location.href = "login.html";
     return;
   }
 
-  const userDoc = await getDoc(doc(db, "users", user.uid));
+  alert("UID: " + user.uid);
 
-  if (!userDoc.exists()) {
-    alert("User Not Found");
-    window.location.href = "home.html";
-    return;
+  try {
+
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+
+    if (!userDoc.exists()) {
+      alert("User Document Not Found");
+      return;
+    }
+
+    alert("isAdmin = " + userDoc.data().isAdmin);
+
+    if (userDoc.data().isAdmin !== true) {
+      alert("Access Denied ❌");
+      window.location.href = "home.html";
+      return;
+    }
+
+    loadOrders();
+
+  } catch (error) {
+    alert(error.message);
+    console.log(error);
   }
-
-  if (userDoc.data().isAdmin !== true) {
-    alert("Access Denied ❌");
-    window.location.href = "home.html";
-    return;
-  }
-
-  loadOrders();
 
 });
 
 async function loadOrders() {
 
-  ordersDiv.innerHTML = "";
+  ordersDiv.innerHTML = "<h2>Loading...</h2>";
 
-  const querySnapshot = await getDocs(collection(db, "orders"));
+  try {
 
-  if (querySnapshot.empty) {
-    ordersDiv.innerHTML = "<h2>No Orders Found</h2>";
-    return;
-  }
+    const querySnapshot = await getDocs(collection(db, "orders"));
 
-  querySnapshot.forEach((docSnap) => {
+    if (querySnapshot.empty) {
+      ordersDiv.innerHTML = "<h2>No Orders Found 📦</h2>";
+      return;
+    }
 
-    const order = docSnap.data();
+    ordersDiv.innerHTML = "";
 
-    ordersDiv.innerHTML += `
-      <div class="card">
+    querySnapshot.forEach((docSnap) => {
+
+      const order = docSnap.data();
+
+      ordersDiv.innerHTML += `
+      <div style="
+        background:#fff;
+        margin:15px;
+        padding:15px;
+        border-radius:10px;
+        box-shadow:0 0 10px rgba(0,0,0,.15);
+      ">
 
         <h2>${order.customerName}</h2>
 
@@ -67,9 +90,7 @@ async function loadOrders() {
 
         <p>
           <b>Status:</b>
-          <span id="status-${docSnap.id}">
-            ${order.status}
-          </span>
+          ${order.status}
         </p>
 
         <button onclick="updateStatus('${docSnap.id}','Confirmed')">
@@ -85,9 +106,16 @@ async function loadOrders() {
         </button>
 
       </div>
-    `;
+      `;
 
-  });
+    });
+
+  } catch (error) {
+
+    alert(error.message);
+    console.log(error);
+
+  }
 
 }
 
