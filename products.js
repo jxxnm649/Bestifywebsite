@@ -13,6 +13,7 @@ const searchInput = document.getElementById("search");
 
 let allProducts = [];
 
+// Load Products
 async function loadProducts() {
 
   try {
@@ -23,11 +24,9 @@ async function loadProducts() {
 
     querySnapshot.forEach((docSnap) => {
 
-      const product = docSnap.data();
-
       allProducts.push({
         id: docSnap.id,
-        ...product
+        ...docSnap.data()
       });
 
     });
@@ -43,9 +42,15 @@ async function loadProducts() {
 
 }
 
+// Display Products
 function displayProducts(products) {
 
   productsDiv.innerHTML = "";
+
+  if (products.length === 0) {
+    productsDiv.innerHTML = "<h2>No Products Found 😔</h2>";
+    return;
+  }
 
   products.forEach((product) => {
 
@@ -77,21 +82,30 @@ function displayProducts(products) {
 
 }
 
-loadProducts();
+// Search
+searchInput.addEventListener("keyup", () => {
 
-searchInput.addEventListener("input", () => {
+  const keyword = searchInput.value.trim().toLowerCase();
 
-  const keyword = searchInput.value.toLowerCase();
+  const filteredProducts = allProducts.filter(product => {
 
-  const filteredProducts = allProducts.filter(product =>
-    product.productName.toLowerCase().includes(keyword) ||
-    product.category.toLowerCase().includes(keyword)
-  );
+    const name = (product.productName || "").toLowerCase();
+    const category = (product.category || "").toLowerCase();
+    const description = (product.description || "").toLowerCase();
+
+    return (
+      name.includes(keyword) ||
+      category.includes(keyword) ||
+      description.includes(keyword)
+    );
+
+  });
 
   displayProducts(filteredProducts);
 
 });
 
+// Add To Cart
 window.addToCart = async function(id) {
 
   try {
@@ -126,3 +140,6 @@ window.addToCart = async function(id) {
   }
 
 };
+
+// Start
+loadProducts();
