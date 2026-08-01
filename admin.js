@@ -20,6 +20,20 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+
+  if (!userDoc.exists()) {
+    alert("User Not Found");
+    window.location.href = "home.html";
+    return;
+  }
+
+  if (userDoc.data().isAdmin !== true) {
+    alert("Access Denied ❌");
+    window.location.href = "home.html";
+    return;
+  }
+
   loadOrders();
 
 });
