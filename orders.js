@@ -80,6 +80,14 @@ onAuthStateChanged(auth, async (user) => {
 
     });
 
+    <p><b>Total:</b> ₹${order.total}</p>
+
+<p>
+  <b>Status:</b>
+  <span style="color:orange;font-weight:bold;">
+    ${order.status}
+  </span>
+</p>
   } catch (error) {
 
     alert(error.message);
