@@ -13,19 +13,12 @@ import {
 
 const ordersDiv = document.getElementById("orders");
 
-alert("Orders JS Loaded");
-
 onAuthStateChanged(auth, async (user) => {
 
-  alert("Auth State Changed");
-
   if (!user) {
-    alert("Please Login");
     window.location.href = "login.html";
     return;
   }
-
-  alert("UID: " + user.uid);
 
   try {
 
@@ -35,8 +28,6 @@ onAuthStateChanged(auth, async (user) => {
     );
 
     const querySnapshot = await getDocs(q);
-
-    alert("Orders Found: " + querySnapshot.size);
 
     ordersDiv.innerHTML = "";
 
@@ -54,7 +45,7 @@ onAuthStateChanged(auth, async (user) => {
       order.products.forEach((product) => {
 
         productsHTML += `
-          <div class="card" style="margin-bottom:20px;">
+          <div class="card" style="margin-top:20px;">
             <img src="${product.image}" style="width:100%;height:220px;object-fit:cover;">
 
             <div class="card-content">
@@ -62,32 +53,38 @@ onAuthStateChanged(auth, async (user) => {
               <p class="price">₹${product.price}</p>
               <p>${product.description}</p>
             </div>
-
           </div>
         `;
 
       });
 
       ordersDiv.innerHTML += `
-        <h2>${order.customerName}</h2>
-        <p><b>Mobile:</b> ${order.mobile}</p>
-        <p><b>Address:</b> ${order.address}</p>
 
-        ${productsHTML}
+        <div class="card" style="padding:20px;margin-bottom:30px;">
 
-        <hr>
+          <h2>${order.customerName}</h2>
+
+          <p><b>Mobile:</b> ${order.mobile}</p>
+
+          <p><b>Address:</b> ${order.address}</p>
+
+          <p><b>Total:</b> ₹${order.total}</p>
+
+          <p>
+            <b>Status:</b>
+            <span style="color:orange;font-weight:bold;">
+              ${order.status}
+            </span>
+          </p>
+
+          ${productsHTML}
+
+        </div>
+
       `;
 
     });
 
-    <p><b>Total:</b> ₹${order.total}</p>
-
-<p>
-  <b>Status:</b>
-  <span style="color:orange;font-weight:bold;">
-    ${order.status}
-  </span>
-</p>
   } catch (error) {
 
     alert(error.message);
