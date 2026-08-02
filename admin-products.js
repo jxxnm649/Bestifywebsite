@@ -9,9 +9,10 @@ import {
   addDoc,
   getDocs,
   doc,
-  getDoc
+  getDoc,
+  deleteDoc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
 const form = document.getElementById("productForm");
 const productsDiv = document.getElementById("products");
 
