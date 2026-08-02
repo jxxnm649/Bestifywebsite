@@ -66,14 +66,7 @@ form.addEventListener("submit", async (e) => {
 });
 
     for (const docSnap of cartSnapshot.docs) {
-      await deleteDoc(
-        doc(db, "users", currentUser.uid, "cart", docSnap.id)
-      );
-    }
-
-    alert("Order Placed Successfully 🎉");
-
-    window.location.href = "cart.html";
+      
 
   } catch (error) {
 
