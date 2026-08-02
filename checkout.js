@@ -62,6 +62,8 @@ form.addEventListener("submit", async (e) => {
         (sum, item) => sum + Number(item.price),
         0
       );
+    console.log(products);
+console.log(totalAmount);
 
     const options = {
 
