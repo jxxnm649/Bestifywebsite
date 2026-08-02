@@ -135,9 +135,12 @@ form.addEventListener("submit", async (e) => {
 
     form.reset();
 
-    preview.style.display = "none";
+preview.style.display = "none";
+preview.src = "";
 
-    loadProducts();
+imageFile.value = "";
+
+loadProducts();
 
 });
 
