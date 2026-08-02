@@ -153,3 +153,42 @@ window.deleteProduct = async function(id){
   loadProducts();
 
 };
+
+window.editProduct = async function(id) {
+
+  try {
+
+    const productRef = doc(db, "products", id);
+    const productSnap = await getDoc(productRef);
+
+    if (!productSnap.exists()) {
+      alert("Product Not Found");
+      return;
+    }
+
+    const product = productSnap.data();
+
+    document.getElementById("image").value = product.image;
+    document.getElementById("productName").value = product.productName;
+    document.getElementById("category").value = product.category;
+    document.getElementById("price").value = product.price;
+    document.getElementById("description").value = product.description;
+
+    editMode = true;
+    editProductId = id;
+
+    form.querySelector("button").innerText = "Update Product";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  } catch (error) {
+
+    alert(error.message);
+    console.log(error);
+
+  }
+
+};
