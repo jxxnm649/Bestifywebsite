@@ -15,7 +15,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 const form = document.getElementById("productForm");
 const productsDiv = document.getElementById("products");
-
+let editMode = false;
+let editProductId = null;
 // Check Admin
 onAuthStateChanged(auth, async (user) => {
 
@@ -43,15 +44,40 @@ form.addEventListener("submit", async (e) => {
 
   try {
 
-    await addDoc(collection(db, "products"), {
+    const productData = {
 
-      image: document.getElementById("image").value,
-      productName: document.getElementById("productName").value,
-      category: document.getElementById("category").value,
-      price: document.getElementById("price").value,
-      description: document.getElementById("description").value
+  image: document.getElementById("image").value,
+  productName: document.getElementById("productName").value,
+  category: document.getElementById("category").value,
+  price: document.getElementById("price").value,
+  description: document.getElementById("description").value
 
-    });
+};
+
+if (editMode) {
+
+  await updateDoc(
+    doc(db, "products", editProductId),
+    productData
+  );
+
+  alert("Product Updated Successfully ✅");
+
+  editMode = false;
+  editProductId = null;
+
+  form.querySelector("button").innerText = "Save Product";
+
+} else {
+
+  await addDoc(
+    collection(db, "products"),
+    productData
+  );
+
+  alert("Product Added Successfully ✅");
+
+}
 
     alert("Product Added Successfully ✅");
 
