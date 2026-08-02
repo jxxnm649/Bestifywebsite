@@ -154,3 +154,35 @@ window.openProduct = function(id) {
 // Start
 loadProducts();
 
+window.toggleWishlist = async function(id) {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please Login First");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const wishlistRef = doc(db, "users", user.uid, "wishlist", id);
+
+  const wishlistSnap = await getDoc(wishlistRef);
+
+  if (wishlistSnap.exists()) {
+
+    await deleteDoc(wishlistRef);
+    alert("Removed from Wishlist ❤️");
+
+  } else {
+
+    const productSnap = await getDoc(doc(db, "products", id));
+
+    await setDoc(
+      wishlistRef,
+      productSnap.data()
+    );
+
+    alert("Added to Wishlist ❤️");
+  }
+
+};
