@@ -32,17 +32,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   loadProducts();
- <div class="card-content">
 
-  <h3>${product.productName}</h3>
-
-  <p>${product.category}</p>
-
-  <p class="price">₹${product.price}</p>
-
-  <p>${product.description}</p>
-
-</div>
 });
 
 // Save Product
@@ -94,15 +84,27 @@ async function loadProducts() {
 
         <div class="card-content">
 
-          <h3>${product.productName}</h3>
+  <h3>${product.productName}</h3>
 
-          <p>${product.category}</p>
+  <p>${product.category}</p>
 
-          <p class="price">₹${product.price}</p>
+  <p class="price">₹${product.price}</p>
 
-          <p>${product.description}</p>
+  <p>${product.description}</p>
 
-        </div>
+  <button onclick="editProduct('${docSnap.id}')">
+    ✏️ Edit
+  </button>
+
+  <br><br>
+
+  <button
+    style="background:red"
+    onclick="deleteProduct('${docSnap.id}')">
+    🗑️ Delete
+  </button>
+
+</div>
 
       </div>
     `;
