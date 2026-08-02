@@ -55,7 +55,7 @@ function displayProducts(products) {
   products.forEach((product) => {
 
     productsDiv.innerHTML += `
-      <div class="card">
+      <div class="card" onclick="openProduct('${product.id}')">
 
         <img src="${product.image}" alt="${product.productName}">
 
@@ -140,11 +140,10 @@ window.addToCart = async function(id) {
   }
 
 };
+window.openProduct = function(id) {
+  window.location.href = "product.html?id=" + id;
+};
 
 // Start
 loadProducts();
 
-
-window.openProduct = function(id) {
-  window.location.href = "product.html?id=" + id;
-};
