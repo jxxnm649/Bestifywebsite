@@ -22,7 +22,7 @@ const preview = document.getElementById("preview");
 
 let editMode = false;
 let editProductId = null;
-
+imageFile.value = "";
 imageFile.addEventListener("change", () => {
 
     const file = imageFile.files[0];
