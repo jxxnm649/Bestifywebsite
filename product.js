@@ -38,30 +38,32 @@ async function loadProduct() {
     const product = productSnap.data();
 
     productDiv.innerHTML = `
-      <div class="card">
+<div class="card">
 
-        <img src="${product.image}" alt="${product.productName}">
+  <img src="${product.image}" alt="${product.productName}">
 
-        <div class="card-content">
+  <div class="card-content">
 
-          <h1>${product.productName}</h1>
+    <h1>${product.productName}</h1>
 
-          <p><b>Category:</b> ${product.category}</p>
+    <p><b>Category:</b> ${product.category}</p>
 
-          <p class="price">₹${product.price}</p>
+    <p class="price">₹${product.price}</p>
 
-          <p>${product.description}</p>
+    <p>${product.description}</p>
 
-          <button onclick="addToCart()">
-            Add To Cart
-          </button>
-          <button onclick="buyNow()">
-  Buy Now
-</button>
-        </div>
+    <button onclick="addToCart()">
+      Add To Cart
+    </button>
 
-      </div>
-    `;
+    <button onclick="buyNow()">
+      Buy Now
+    </button>
+
+  </div>
+
+</div>
+`;
 
   } catch (error) {
 
