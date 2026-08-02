@@ -68,6 +68,14 @@ function displayProducts(products) {
           <p class="price">₹${product.price}</p>
 
           <p>${product.description}</p>
+
+<button onclick="event.stopPropagation(); toggleWishlist('${product.id}')">
+❤️ Wishlist
+</button>
+
+<br><br>
+
+
 <button onclick="event.stopPropagation(); addToCart('${product.id}')">
   Add To Cart
 </button>
