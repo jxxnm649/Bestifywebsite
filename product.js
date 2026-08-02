@@ -105,3 +105,36 @@ window.addToCart = async function () {
   }
 
 };
+
+window.buyNow = async function () {
+
+  if (!currentUser) {
+    alert("Please Login First");
+    window.location.href = "login.html";
+    return;
+  }
+
+  try {
+
+    const productRef = doc(db, "products", productId);
+    const productSnap = await getDoc(productRef);
+
+    if (!productSnap.exists()) {
+      alert("Product Not Found");
+      return;
+    }
+
+    await setDoc(
+      doc(db, "users", currentUser.uid, "cart", productId),
+      productSnap.data()
+    );
+
+    window.location.href = "checkout.html";
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
+
+};
