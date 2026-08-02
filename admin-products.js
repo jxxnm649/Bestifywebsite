@@ -13,222 +13,241 @@ import {
   deleteDoc,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
 const form = document.getElementById("productForm");
 const productsDiv = document.getElementById("products");
+
 const imageFile = document.getElementById("imageFile");
 const preview = document.getElementById("preview");
-imageFile.addEventListener("change", () => {
 
-  const file = imageFile.files[0];
-
-  if (!file) return;
-
-  preview.src = URL.createObjectURL(file);
-
-  preview.style.display = "block";
-
-});
 let editMode = false;
 let editProductId = null;
-// Check Admin
+
+imageFile.addEventListener("change", () => {
+
+    const file = imageFile.files[0];
+
+    if (!file) return;
+
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+
+});
+
 onAuthStateChanged(auth, async (user) => {
 
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
 
-  const userDoc = await getDoc(doc(db, "users", user.uid));
+    const userDoc = await getDoc(doc(db, "users", user.uid));
 
-  if (!userDoc.exists() || userDoc.data().isAdmin !== true) {
-    alert("Access Denied ❌");
-    window.location.href = "home.html";
-    return;
-  }
+    if (!userDoc.exists() || userDoc.data().isAdmin !== true) {
+        alert("Access Denied");
+        window.location.href = "home.html";
+        return;
+    }
 
-  loadProducts();
+    loadProducts();
 
 });
 
 async function uploadImage() {
 
-  const file = imageFile.files[0];
+    const file = imageFile.files[0];
 
-  if (!file) {
-    alert("Please Select Image");
-    return null;
-  }
+    if (!file) {
 
-  const formData = new FormData();
+        if (editMode) {
 
-  formData.append("file", file);
-  formData.append("upload_preset", "Bestifyimg");
+            const oldDoc = await getDoc(doc(db, "products", editProductId));
+            return oldDoc.data().image;
 
-  const response = await fetch(
-    "https://api.cloudinary.com/v1_1/rgksliph/image/upload",
-    {
-      method: "POST",
-      body: formData
+        }
+
+        alert("Select Image");
+        return null;
+
     }
-  );
 
-  const data = await response.json();
+    const formData = new FormData();
 
-  return data.secure_url;
+    formData.append("file", file);
+    formData.append("upload_preset", "Bestifyimg");
+
+    const response = await fetch(
+        "https://api.cloudinary.com/v1_1/rgksliph/image/upload",
+        {
+            method: "POST",
+            body: formData
+        }
+    );
+
+    const data = await response.json();
+
+    return data.secure_url;
 
 }
-// Save Product
+
 form.addEventListener("submit", async (e) => {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
+    const imageUrl = await uploadImage();
+
+    if (!imageUrl) return;
 
     const productData = {
 
-  image: document.getElementById("image").value,
-  productName: document.getElementById("productName").value,
-  category: document.getElementById("category").value,
-  price: document.getElementById("price").value,
-  description: document.getElementById("description").value
+        image: imageUrl,
+        productName: document.getElementById("productName").value,
+        category: document.getElementById("category").value,
+        price: document.getElementById("price").value,
+        description: document.getElementById("description").value
 
-};
+    };
 
-if (editMode) {
+    if (editMode) {
 
-  await updateDoc(
-    doc(db, "products", editProductId),
-    productData
-  );
+        await updateDoc(
+            doc(db, "products", editProductId),
+            productData
+        );
 
-  alert("Product Updated Successfully ✅");
+        alert("Product Updated ✅");
 
-  editMode = false;
-  editProductId = null;
+        editMode = false;
+        editProductId = null;
 
-  form.querySelector("button").innerText = "Save Product";
+        form.querySelector("button").innerText = "Save Product";
 
-} else {
+    } else {
 
-  await addDoc(
-    collection(db, "products"),
-    productData
-  );
+        await addDoc(
+            collection(db, "products"),
+            productData
+        );
 
-  alert("Product Added Successfully ✅");
+        alert("Product Added ✅");
 
-}
-
-    alert("Product Added Successfully ✅");
+    }
 
     form.reset();
 
+    preview.style.display = "none";
+
     loadProducts();
-
-  } catch (error) {
-
-    alert(error.message);
-
-  }
 
 });
 
 // Load Products
 async function loadProducts() {
 
-  const querySnapshot = await getDocs(collection(db, "products"));
+    const querySnapshot = await getDocs(collection(db, "products"));
 
-  productsDiv.innerHTML = "";
+    productsDiv.innerHTML = "";
 
-  querySnapshot.forEach((docSnap) => {
+    if (querySnapshot.empty) {
+        productsDiv.innerHTML = "<h2>No Products Found</h2>";
+        return;
+    }
 
-    const product = docSnap.data();
+    querySnapshot.forEach((docSnap) => {
 
-    productsDiv.innerHTML += `
-      <div class="card">
+        const product = docSnap.data();
 
-        <img src="${product.image}" alt="${product.productName}">
+        productsDiv.innerHTML += `
 
-        <div class="card-content">
+        <div class="card">
 
-  <h3>${product.productName}</h3>
+            <img src="${product.image}" alt="${product.productName}">
 
-  <p>${product.category}</p>
+            <div class="card-content">
 
-  <p class="price">₹${product.price}</p>
+                <h3>${product.productName}</h3>
 
-  <p>${product.description}</p>
+                <p>${product.category}</p>
 
-  <button onclick="editProduct('${docSnap.id}')">
-    ✏️ Edit
-  </button>
+                <p class="price">₹${product.price}</p>
 
-  <br><br>
+                <p>${product.description}</p>
 
-  <button
-    style="background:red"
-    onclick="deleteProduct('${docSnap.id}')">
-    🗑️ Delete
-  </button>
+                <button onclick="editProduct('${docSnap.id}')">
+                    ✏️ Edit
+                </button>
 
-</div>
+                <br><br>
 
-      </div>
-    `;
+                <button
+                    style="background:red"
+                    onclick="deleteProduct('${docSnap.id}')">
+                    🗑️ Delete
+                </button>
 
-  });
+            </div>
+
+        </div>
+
+        `;
+
+    });
 
 }
 
-window.deleteProduct = async function(id){
+// Delete Product
+window.deleteProduct = async function(id) {
 
-  const ok = confirm("Delete this product?");
+    const ok = confirm("Delete this product?");
 
-  if(!ok) return;
+    if (!ok) return;
 
-  await deleteDoc(doc(db,"products",id));
+    await deleteDoc(doc(db, "products", id));
 
-  alert("Product Deleted ✅");
+    alert("Product Deleted ✅");
 
-  loadProducts();
+    loadProducts();
 
 };
 
+// Edit Product
 window.editProduct = async function(id) {
 
-  try {
+    try {
 
-    const productRef = doc(db, "products", id);
-    const productSnap = await getDoc(productRef);
+        const productRef = doc(db, "products", id);
+        const productSnap = await getDoc(productRef);
 
-    if (!productSnap.exists()) {
-      alert("Product Not Found");
-      return;
+        if (!productSnap.exists()) {
+            alert("Product Not Found");
+            return;
+        }
+
+        const product = productSnap.data();
+
+        preview.src = product.image;
+        preview.style.display = "block";
+
+        document.getElementById("productName").value = product.productName;
+        document.getElementById("category").value = product.category;
+        document.getElementById("price").value = product.price;
+        document.getElementById("description").value = product.description;
+
+        editMode = true;
+        editProductId = id;
+
+        form.querySelector("button").innerText = "Update Product";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } catch (error) {
+
+        alert(error.message);
+        console.log(error);
+
     }
-
-    const product = productSnap.data();
-
-    document.getElementById("image").value = product.image;
-    document.getElementById("productName").value = product.productName;
-    document.getElementById("category").value = product.category;
-    document.getElementById("price").value = product.price;
-    document.getElementById("description").value = product.description;
-
-    editMode = true;
-    editProductId = id;
-
-    form.querySelector("button").innerText = "Update Product";
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  } catch (error) {
-
-    alert(error.message);
-    console.log(error);
-
-  }
 
 };
