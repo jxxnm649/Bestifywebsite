@@ -113,3 +113,17 @@ async function loadProducts() {
   });
 
 }
+
+window.deleteProduct = async function(id){
+
+  const ok = confirm("Delete this product?");
+
+  if(!ok) return;
+
+  await deleteDoc(doc(db,"products",id));
+
+  alert("Product Deleted ✅");
+
+  loadProducts();
+
+};
