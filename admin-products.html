@@ -13,12 +13,22 @@
 
 <form id="productForm">
 
-  <input
-    type="text"
-    id="image"
-    placeholder="Image URL"
-    required
-  >
+  <label>Select Product Image</label>
+
+<input
+  type="file"
+  id="imageFile"
+  accept="image/*"
+  required
+>
+
+<br><br>
+
+<img
+  id="preview"
+  width="180"
+  style="display:none;border-radius:10px;"
+>
 
   <input
     type="text"
