@@ -15,6 +15,19 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 const form = document.getElementById("productForm");
 const productsDiv = document.getElementById("products");
+const imageFile = document.getElementById("imageFile");
+const preview = document.getElementById("preview");
+imageFile.addEventListener("change", () => {
+
+  const file = imageFile.files[0];
+
+  if (!file) return;
+
+  preview.src = URL.createObjectURL(file);
+
+  preview.style.display = "block";
+
+});
 let editMode = false;
 let editProductId = null;
 // Check Admin
