@@ -143,3 +143,8 @@ window.addToCart = async function(id) {
 
 // Start
 loadProducts();
+
+
+window.openProduct = function(id) {
+  window.location.href = "product.html?id=" + id;
+};
