@@ -1,6 +1,10 @@
 import { auth, db } from "./firebase.js";
 
 import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+import {
   doc,
   getDoc,
   setDoc
@@ -10,6 +14,12 @@ const productDiv = document.getElementById("product");
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
+
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+});
 
 loadProduct();
 
@@ -54,28 +64,42 @@ async function loadProduct() {
   } catch (error) {
 
     alert(error.message);
+    console.log(error);
 
   }
 
 }
 
-window.addToCart = async function() {
+window.addToCart = async function () {
 
-  const user = auth.currentUser;
-
-  if (!user) {
+  if (!currentUser) {
     alert("Please Login First");
+    window.location.href = "login.html";
     return;
   }
 
-  const productRef = doc(db, "products", productId);
-  const productSnap = await getDoc(productRef);
+  try {
 
-  await setDoc(
-    doc(db, "users", user.uid, "cart", productId),
-    productSnap.data()
-  );
+    const productRef = doc(db, "products", productId);
+    const productSnap = await getDoc(productRef);
 
-  alert("Added To Cart ✅");
+    if (!productSnap.exists()) {
+      alert("Product Not Found");
+      return;
+    }
+
+    await setDoc(
+      doc(db, "users", currentUser.uid, "cart", productId),
+      productSnap.data()
+    );
+
+    alert("Added To Cart ✅");
+
+  } catch (error) {
+
+    alert(error.message);
+    console.log(error);
+
+  }
 
 };
