@@ -68,10 +68,9 @@ function displayProducts(products) {
           <p class="price">₹${product.price}</p>
 
           <p>${product.description}</p>
-
-          <button onclick="addToCart('${product.id}')">
-            Add To Cart
-          </button>
+<button onclick="event.stopPropagation(); addToCart('${product.id}')">
+  Add To Cart
+</button>
 
         </div>
 
