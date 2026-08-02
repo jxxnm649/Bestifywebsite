@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Products</title>
+
+  <link rel="stylesheet" href="admin-products.css">
+</head>
+<body>
+
+<h1>📦 Admin Product Manager</h1>
+
+<form id="productForm">
+
+  <input
+    type="text"
+    id="image"
+    placeholder="Image URL"
+    required
+  >
+
+  <input
+    type="text"
+    id="productName"
+    placeholder="Product Name"
+    required
+  >
+
+  <input
+    type="text"
+    id="category"
+    placeholder="Category"
+    required
+  >
+
+  <input
+    type="number"
+    id="price"
+    placeholder="Price"
+    required
+  >
+
+  <textarea
+    id="description"
+    placeholder="Description"
+    required
+  ></textarea>
+
+  <button type="submit">
+    Save Product
+  </button>
+
+</form>
+
+<hr>
+
+<h2>All Products</h2>
+
+<div id="products"></div>
+
+<script type="module" src="admin-products.js"></script>
+
+</body>
+</html>
