@@ -32,7 +32,17 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   loadProducts();
+ <div class="card-content">
 
+  <h3>${product.productName}</h3>
+
+  <p>${product.category}</p>
+
+  <p class="price">₹${product.price}</p>
+
+  <p>${product.description}</p>
+
+</div>
 });
 
 // Save Product
