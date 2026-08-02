@@ -5,9 +5,9 @@ import {
   getDocs,
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
 const productsDiv = document.getElementById("products");
 const searchInput = document.getElementById("search");
 
