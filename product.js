@@ -55,7 +55,9 @@ async function loadProduct() {
           <button onclick="addToCart()">
             Add To Cart
           </button>
-
+          <button onclick="buyNow()">
+  Buy Now
+</button>
         </div>
 
       </div>
