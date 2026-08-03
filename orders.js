@@ -52,6 +52,9 @@ onAuthStateChanged(auth, async (user) => {
               <h2>${product.productName}</h2>
               <p class="price">₹${product.price}</p>
               <p>${product.description}</p>
+            <button onclick="window.location.href='invoice.html?id=${docSnap.id}'">
+📄 View Invoice
+</button>
             </div>
           </div>
         `;
@@ -69,7 +72,9 @@ onAuthStateChanged(auth, async (user) => {
           <p><b>Address:</b> ${order.address}</p>
 
           <p><b>Total:</b> ₹${order.total}</p>
-
+    <button onclick="window.location.href='invoice.html?id=${docSnap.id}'">
+📄 View Invoice
+</button>
           <p>
             <b>Status:</b>
             <span style="color:orange;font-weight:bold;">
