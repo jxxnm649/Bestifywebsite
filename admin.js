@@ -134,22 +134,35 @@ Update Status
 
 }
 
-window.updateStatus = async function(id, status) {
+window.updateStatus = async function(id){
 
-  try {
+try{
 
-    await updateDoc(doc(db, "orders", id), {
-      status: status
-    });
+const status =
+document.getElementById(`status-${id}`).value;
 
-    alert("Status Updated ✅");
+await updateDoc(
 
-    loadOrders();
+doc(db,"orders",id),
 
-  } catch (error) {
+{
 
-    alert(error.message);
+status:status
 
-  }
+}
 
-};
+);
+
+alert("Status Updated ✅");
+
+loadOrders();
+
+}
+
+catch(error){
+
+alert(error.message);
+
+}
+
+}
