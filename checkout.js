@@ -133,20 +133,21 @@ await addDoc(collection(db, "orders"), {
 
       handler: async function (response) {
 
-        await addDoc(
-          collection(db, "orders"),
-          {
-            userId: currentUser.uid,
-            customerName,
-            mobile,
-            address,
-            products,
-            total: totalAmount,
-            paymentId: response.razorpay_payment_id,
-            status: "Paid",
-            createdAt: new Date()
-          }
-        );
+        await addDoc(collection(db, "orders"), {
+
+  userId: currentUser.uid,
+  customerName,
+  mobile,
+  address,
+  products,
+  total: totalAmount,
+  paymentId: response.razorpay_payment_id,
+
+  status: "Pending",      // 👈 ಮೊದಲ status
+
+  createdAt: new Date()
+
+});
 
         if (!buyNowProductId && cartSnapshot) {
 
