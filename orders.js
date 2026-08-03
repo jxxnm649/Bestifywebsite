@@ -79,9 +79,7 @@ onAuthStateChanged(auth, async (user) => {
               ${order.status}
             </span>
           </p>
-          <button onclick="window.location.href='invoice.html?id=${docSnap.id}'">
-📄 View Invoice
-</button>
+
 
           ${productsHTML}
 
