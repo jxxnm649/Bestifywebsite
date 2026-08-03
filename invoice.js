@@ -36,7 +36,12 @@ async function loadInvoice() {
     customerEl.innerText = order.customerName;
     mobileEl.innerText = order.mobile;
     addressEl.innerText = order.address;
-    totalEl.innerText = order.total;
+    const total = order.products.reduce(
+    (sum, item) => sum + Number(item.price),
+    0
+);
+
+totalEl.innerText = total;
 
     productsEl.innerHTML = "";
 
