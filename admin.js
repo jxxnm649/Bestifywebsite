@@ -92,18 +92,33 @@ async function loadOrders() {
           <b>Status:</b>
           ${order.status}
         </p>
+<p><b>Status</b></p>
 
-        <button onclick="updateStatus('${docSnap.id}','Confirmed')">
-          Confirm
-        </button>
+<select id="status-${docSnap.id}">
 
-        <button onclick="updateStatus('${docSnap.id}','Shipped')">
-          Ship
-        </button>
+<option value="Pending">Pending</option>
 
-        <button onclick="updateStatus('${docSnap.id}','Delivered')">
-          Deliver
-        </button>
+<option value="Confirmed">Confirmed</option>
+
+<option value="Packed">Packed</option>
+
+<option value="Shipped">Shipped</option>
+
+<option value="Out for Delivery">Out for Delivery</option>
+
+<option value="Delivered">Delivered</option>
+
+<option value="Cancelled">Cancelled</option>
+
+</select>
+
+<br><br>
+
+<button onclick="updateStatus('${docSnap.id}')">
+
+Update Status
+
+</button>
 
       </div>
       `;
