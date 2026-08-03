@@ -108,29 +108,8 @@ window.addToCart = async function () {
 
 };
 
-window.buyNow = async function () {
+window.buyNow = function () {
 
-  const user = auth.currentUser;
+  window.location.href = `checkout.html?productId=${productId}`;
 
-  if (!user) {
-    alert("Please Login First");
-    window.location.href = "login.html";
-    return;
-  }
-
-  const productRef = doc(db, "products", productId);
-  const productSnap = await getDoc(productRef);
-
-  if (!productSnap.exists()) {
-    alert("Product Not Found");
-    return;
-  }
-
-  await setDoc(
-    doc(db, "users", user.uid, "cart", productId),
-    productSnap.data()
-  );
-
-  // Checkout page open
-  window.location.href = "checkout.html";
 };
