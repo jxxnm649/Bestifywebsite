@@ -58,6 +58,22 @@ form.addEventListener("submit", async (e) => {
         doc(db, "products", buyNowProductId)
       );
 
+      const total = products.reduce(
+    (sum, item) => sum + Number(item.price),
+    0
+);
+
+await addDoc(collection(db, "orders"), {
+    userId: currentUser.uid,
+    customerName,
+    mobile,
+    address,
+    products,
+    total: total,
+    status: "Pending",
+    createdAt: new Date()
+});
+      
       if (!productSnap.exists()) {
 
         alert("Product Not Found");
