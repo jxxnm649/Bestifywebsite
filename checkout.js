@@ -8,7 +8,9 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
-  doc
+  doc,
+  getDoc
+}
 }
 from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
@@ -29,6 +31,39 @@ onAuthStateChanged(auth, (user) => {
 
 form.addEventListener("submit", async (e) => {
 
+  const params = new URLSearchParams(window.location.search);
+const buyNowProductId = params.get("productId");
+
+let products = [];
+
+if (buyNowProductId) {
+
+  const productRef = doc(db, "products", buyNowProductId);
+  const productSnap = await getDoc(productRef);
+
+  if (!productSnap.exists()) {
+    alert("Product Not Found");
+    return;
+  }
+
+  products.push(productSnap.data());
+
+} else {
+
+  const cartSnapshot = await getDocs(
+    collection(db, "users", currentUser.uid, "cart")
+  );
+
+  if (cartSnapshot.empty) {
+    alert("Your Cart is Empty");
+    return;
+  }
+
+  cartSnapshot.forEach((docSnap) => {
+    products.push(docSnap.data());
+  });
+
+}
   e.preventDefault();
 
   const customerName =
