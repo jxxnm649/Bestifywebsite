@@ -1,7 +1,8 @@
 import { auth, db } from "./firebase.js";
 
-import { onAuthStateChanged }
-from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 import {
   collection,
@@ -10,9 +11,7 @@ import {
   deleteDoc,
   doc,
   getDoc
-}
-}
-from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const form = document.getElementById("checkoutForm");
 
@@ -31,39 +30,6 @@ onAuthStateChanged(auth, (user) => {
 
 form.addEventListener("submit", async (e) => {
 
-  const params = new URLSearchParams(window.location.search);
-const buyNowProductId = params.get("productId");
-
-let products = [];
-
-if (buyNowProductId) {
-
-  const productRef = doc(db, "products", buyNowProductId);
-  const productSnap = await getDoc(productRef);
-
-  if (!productSnap.exists()) {
-    alert("Product Not Found");
-    return;
-  }
-
-  products.push(productSnap.data());
-
-} else {
-
-  const cartSnapshot = await getDocs(
-    collection(db, "users", currentUser.uid, "cart")
-  );
-
-  if (cartSnapshot.empty) {
-    alert("Your Cart is Empty");
-    return;
-  }
-
-  cartSnapshot.forEach((docSnap) => {
-    products.push(docSnap.data());
-  });
-
-}
   e.preventDefault();
 
   const customerName =
@@ -75,32 +41,69 @@ if (buyNowProductId) {
   const address =
     document.getElementById("address").value;
 
+  const params = new URLSearchParams(window.location.search);
+
+  const buyNowProductId =
+    params.get("productId");
+
+  let products = [];
+
+  let cartSnapshot = null;
+
   try {
 
-    const cartSnapshot = await getDocs(
-      collection(db, "users", currentUser.uid, "cart")
-    );
+    if (buyNowProductId) {
 
-    if (cartSnapshot.empty) {
-      alert("Your Cart is Empty");
-      return;
+      const productSnap = await getDoc(
+        doc(db, "products", buyNowProductId)
+      );
+
+      if (!productSnap.exists()) {
+
+        alert("Product Not Found");
+
+        return;
+
+      }
+
+      products.push(productSnap.data());
+
+    } else {
+
+      cartSnapshot = await getDocs(
+
+        collection(
+          db,
+          "users",
+          currentUser.uid,
+          "cart"
+        )
+
+      );
+
+      if (cartSnapshot.empty) {
+
+        alert("Your Cart is Empty");
+
+        return;
+
+      }
+
+      cartSnapshot.forEach((docSnap) => {
+
+        products.push(docSnap.data());
+
+      });
+
     }
-
-    const products = [];
-
-    cartSnapshot.forEach((docSnap) => {
-      products.push(docSnap.data());
-    });
 
     const totalAmount =
       products.reduce(
-        (sum, item) => sum + Number(item.price),
+        (sum, item) =>
+          sum + Number(item.price),
         0
       );
-    console.log(products);
-console.log(totalAmount);
-
-    const options = {
+        const options = {
 
       key: "rzp_test_TL1OXROVimUJpK",
 
@@ -112,45 +115,41 @@ console.log(totalAmount);
 
       description: "Product Purchase",
 
-      handler: async function(response) {
+      handler: async function (response) {
 
         await addDoc(
           collection(db, "orders"),
           {
-
             userId: currentUser.uid,
-
             customerName,
-
             mobile,
-
             address,
-
             products,
-
             total: totalAmount,
-
-            paymentId:
-              response.razorpay_payment_id,
-
+            paymentId: response.razorpay_payment_id,
             status: "Paid",
-
             createdAt: new Date()
-
           }
         );
 
-        if (!buyNowProductId) {
+        if (!buyNowProductId && cartSnapshot) {
 
-  for (const docSnap of cartSnapshot.docs) {
+          for (const cartDoc of cartSnapshot.docs) {
 
-    await deleteDoc(
-      doc(db, "users", currentUser.uid, "cart", docSnap.id)
-    );
+            await deleteDoc(
+              doc(
+                db,
+                "users",
+                currentUser.uid,
+                "cart",
+                cartDoc.id
+              )
+            );
 
-  }
+          }
 
-}
+        }
+
         alert("Payment Successful ✅");
 
         window.location.href = "orders.html";
@@ -166,12 +165,11 @@ console.log(totalAmount);
     const rzp = new Razorpay(options);
 
     rzp.open();
-
-  } catch (error) {
-
-    alert(error.message);
+      } catch (error) {
 
     console.log(error);
+
+    alert(error.message);
 
   }
 
