@@ -140,20 +140,17 @@ console.log(totalAmount);
           }
         );
 
-        for (const docSnap of cartSnapshot.docs) {
+        if (!buyNowProductId) {
 
-          await deleteDoc(
-            doc(
-              db,
-              "users",
-              currentUser.uid,
-              "cart",
-              docSnap.id
-            )
-          );
+  for (const docSnap of cartSnapshot.docs) {
 
-        }
+    await deleteDoc(
+      doc(db, "users", currentUser.uid, "cart", docSnap.id)
+    );
 
+  }
+
+}
         alert("Payment Successful ✅");
 
         window.location.href = "orders.html";
