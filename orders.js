@@ -72,14 +72,57 @@ onAuthStateChanged(auth, async (user) => {
           <p><b>Address:</b> ${order.address}</p>
 
           <p><b>Total:</b> ₹${order.total}</p>
+  <p>
 
-          <p>
-            <b>Status:</b>
-            <span style="color:orange;font-weight:bold;">
-              ${order.status}
-            </span>
-          </p>
+<b>Status:</b>
 
+<span
+style="
+background:${statusColor};
+color:white;
+padding:6px 12px;
+border-radius:20px;
+font-weight:bold;
+">
+
+${statusIcon} ${order.status}
+
+</span>
+
+</p>
+
+          let statusColor = "#ff9800";
+let statusIcon = "🟡";
+
+if(order.status==="Confirmed"){
+statusColor="#2196F3";
+statusIcon="🟢";
+}
+
+if(order.status==="Packed"){
+statusColor="#9C27B0";
+statusIcon="📦";
+}
+
+if(order.status==="Shipped"){
+statusColor="#3F51B5";
+statusIcon="🚚";
+}
+
+if(order.status==="Out for Delivery"){
+statusColor="#009688";
+statusIcon="🚛";
+}
+
+if(order.status==="Delivered"){
+statusColor="#4CAF50";
+statusIcon="✅";
+}
+
+if(order.status==="Cancelled"){
+statusColor="#F44336";
+statusIcon="❌";
+}
 
           ${productsHTML}
 
