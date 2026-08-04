@@ -1,65 +1,32 @@
-.tracker{
-margin:20px 0;
-}
+<div class="tracker">
 
-.progress{
-display:flex;
-justify-content:space-between;
-align-items:center;
-position:relative;
-margin:20px 0;
-}
+<div class="progress">
 
-.progress::before{
-content:"";
-position:absolute;
-top:16px;
-left:0;
-width:100%;
-height:4px;
-background:#ddd;
-z-index:0;
-}
+<div class="step confirmed">
+<div class="circle">✓</div>
+<div class="label">Confirmed</div>
+</div>
 
-.step{
-position:relative;
-z-index:1;
-text-align:center;
-flex:1;
-font-size:12px;
-}
+<div class="step packed">
+<div class="circle">📦</div>
+<div class="label">Packed</div>
+</div>
 
-.circle{
-width:32px;
-height:32px;
-border-radius:50%;
-background:#ddd;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-margin:auto;
-font-size:18px;
-font-weight:bold;
-}
+<div class="step shipped">
+<div class="circle">🚚</div>
+<div class="label">Shipped</div>
+</div>
 
-.step.active .circle{
-background:#4CAF50;
-}
+<div class="step delivery">
+<div class="circle">🚛</div>
+<div class="label">Out for Delivery</div>
+</div>
 
-.step.current .circle{
-background:#ff9800;
-animation:pulse 1s infinite;
-}
+<div class="step delivered">
+<div class="circle">🏠</div>
+<div class="label">Delivered</div>
+</div>
 
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.15);}
-100%{transform:scale(1);}
-}
+</div>
 
-.label{
-margin-top:8px;
-font-size:11px;
-font-weight:bold;
-}
+</div>
