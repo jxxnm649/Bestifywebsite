@@ -106,7 +106,33 @@ if(order.status==="Cancelled"){
   <p>
 
 <b>Status:</b>
+<div class="tracking">
 
+<div class="${["Pending","Confirmed","Packed","Shipped","Out for Delivery","Delivered"].includes(order.status) ? "active" : ""}">
+🟡 Pending
+</div>
+
+<div class="${["Confirmed","Packed","Shipped","Out for Delivery","Delivered"].includes(order.status) ? "active" : ""}">
+🟢 Confirmed
+</div>
+
+<div class="${["Packed","Shipped","Out for Delivery","Delivered"].includes(order.status) ? "active" : ""}">
+📦 Packed
+</div>
+
+<div class="${["Shipped","Out for Delivery","Delivered"].includes(order.status) ? "active" : ""}">
+🚚 Shipped
+</div>
+
+<div class="${["Out for Delivery","Delivered"].includes(order.status) ? "active" : ""}">
+🚛 Out for Delivery
+</div>
+
+<div class="${order.status==="Delivered" ? "active" : ""}">
+✅ Delivered
+</div>
+
+</div>
 <span
 style="
 background:${statusColor};
