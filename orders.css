@@ -1,0 +1,15 @@
+.tracking{
+margin-top:15px;
+border-left:3px solid #ddd;
+padding-left:15px;
+}
+
+.tracking div{
+padding:8px 0;
+color:#999;
+font-weight:bold;
+}
+
+.tracking .active{
+color:#0a8f08;
+}
