@@ -39,7 +39,38 @@ onAuthStateChanged(auth, async (user) => {
     querySnapshot.forEach((docSnap) => {
 
       const order = docSnap.data();
+ let statusColor = "#ff9800";
+let statusIcon = "🟡";
 
+if(order.status==="Confirmed"){
+  statusColor="#2196F3";
+  statusIcon="🟢";
+}
+
+if(order.status==="Packed"){
+  statusColor="#9C27B0";
+  statusIcon="📦";
+}
+
+if(order.status==="Shipped"){
+  statusColor="#3F51B5";
+  statusIcon="🚚";
+}
+
+if(order.status==="Out for Delivery"){
+  statusColor="#009688";
+  statusIcon="🚛";
+}
+
+if(order.status==="Delivered"){
+  statusColor="#4CAF50";
+  statusIcon="✅";
+}
+
+if(order.status==="Cancelled"){
+  statusColor="#F44336";
+  statusIcon="❌";
+}
       let productsHTML = "";
 
       order.products.forEach((product) => {
