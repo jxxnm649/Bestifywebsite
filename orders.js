@@ -39,37 +39,48 @@ onAuthStateChanged(auth, async (user) => {
     querySnapshot.forEach((docSnap) => {
 
       const order = docSnap.data();
- let statusColor = "#ff9800";
-let statusIcon = "🟡";
+let confirmed = "";
+let packed = "";
+let shipped = "";
+let delivery = "";
+let delivered = "";
 
-if(order.status==="Confirmed"){
-  statusColor="#2196F3";
-  statusIcon="🟢";
-}
+switch(order.status){
 
-if(order.status==="Packed"){
-  statusColor="#9C27B0";
-  statusIcon="📦";
-}
+case "Pending":
+confirmed = "current";
+break;
 
-if(order.status==="Shipped"){
-  statusColor="#3F51B5";
-  statusIcon="🚚";
-}
+case "Confirmed":
+confirmed = "active";
+break;
 
-if(order.status==="Out for Delivery"){
-  statusColor="#009688";
-  statusIcon="🚛";
-}
+case "Packed":
+confirmed = "active";
+packed = "active";
+break;
 
-if(order.status==="Delivered"){
-  statusColor="#4CAF50";
-  statusIcon="✅";
-}
+case "Shipped":
+confirmed = "active";
+packed = "active";
+shipped = "active";
+break;
 
-if(order.status==="Cancelled"){
-  statusColor="#F44336";
-  statusIcon="❌";
+case "Out for Delivery":
+confirmed = "active";
+packed = "active";
+shipped = "active";
+delivery = "current";
+break;
+
+case "Delivered":
+confirmed = "active";
+packed = "active";
+shipped = "active";
+delivery = "active";
+delivered = "active";
+break;
+
 }
       let productsHTML = "";
 
@@ -106,6 +117,39 @@ if(order.status==="Cancelled"){
   <p>
 
 <b>Status:</b>
+
+<div class="status-tracker">
+
+<div class="progress-bar">
+
+<div class="step ${confirmed}">
+<div class="circle"><i class="fa-solid fa-circle-check"></i></div>
+<span>Confirmed</span>
+</div>
+
+<div class="step ${packed}">
+<div class="circle"><i class="fa-solid fa-box"></i></div>
+<span>Packed</span>
+</div>
+
+<div class="step ${shipped}">
+<div class="circle"><i class="fa-solid fa-truck"></i></div>
+<span>Shipped</span>
+</div>
+
+<div class="step ${delivery}">
+<div class="circle"><i class="fa-solid fa-motorcycle"></i></div>
+<span>Out for Delivery</span>
+</div>
+
+<div class="step ${delivered}">
+<div class="circle"><i class="fa-solid fa-house"></i></div>
+<span>Delivered</span>
+</div>
+
+</div>
+
+</div>
 <div class="tracking">
 
 <div class="${["Pending","Confirmed","Packed","Shipped","Out for Delivery","Delivered"].includes(order.status) ? "active" : ""}">
@@ -133,7 +177,7 @@ if(order.status==="Cancelled"){
 </div>
 
 </div>
-<span
+<span>
 style="
 background:${statusColor};
 color:white;
