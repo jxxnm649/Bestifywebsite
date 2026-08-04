@@ -1,26 +1,9 @@
-.tracking {
-  margin-top: 15px;
-  border-left: 3px solid #ddd;
-  padding-left: 15px;
-}
-
-.tracking div {
-  padding: 8px 0;
-  color: #999;
-  font-weight: bold;
-}
-
-.tracking .active {
-  color: #0a8f08;
-}
-
+/* Order Status Bar Wrapper */
 .status-tracker {
   margin: 20px 0;
-  padding: 15px;
+  padding: 15px 10px;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.08);
-  overflow-x: auto;
 }
 
 .progress-bar {
@@ -28,23 +11,36 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  min-width: 600px;
+  width: 100%;
 }
 
+/* Background connecting line */
 .progress-bar::before {
   content: "";
   position: absolute;
-  top: 18px;
-  left: 40px;
-  right: 40px;
+  top: 15px;
+  left: 15px;
+  right: 15px;
   height: 4px;
-  background: #ddd;
-  z-index: 0;
+  background: #e0e0e0;
+  z-index: 1;
 }
 
+/* Dynamic Active Green Line */
+.progress-line {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  height: 4px;
+  background: #038d63; /* Meesho Green */
+  z-index: 1;
+  transition: width 0.3s ease;
+}
+
+/* Step items */
 .step {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,35 +48,35 @@
 }
 
 .step .circle {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: #ddd;
+  background: #e0e0e0;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
 }
 
-.step.active .circle {
-  background: #4CAF50;
+.step.completed .circle {
+  background: #038d63; /* Green Circle */
 }
 
 .step.current .circle {
-  background: #ff9800;
-  animation: pulse 1s infinite;
+  background: #038d63;
+  box-shadow: 0 0 0 4px rgba(3, 141, 99, 0.2);
 }
 
 .step span {
   margin-top: 8px;
-  font-size: 11px;
+  font-size: 12px;
+  color: #666;
   text-align: center;
+  font-weight: 500;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+.step.completed span, .step.current span {
+  color: #000;
+  font-weight: bold;
 }
