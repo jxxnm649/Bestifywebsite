@@ -13,6 +13,7 @@ import {
 
 const ordersDiv = document.getElementById("orders");
 
+// Auth State Monitor
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
@@ -27,137 +28,130 @@ onAuthStateChanged(auth, async (user) => {
     );
 
     const querySnapshot = await getDocs(q);
-
     ordersDiv.innerHTML = "";
 
     if (querySnapshot.empty) {
-      ordersDiv.innerHTML = "<h2 style='text-align:center; margin-top:50px;'>No Orders Found 📦</h2>";
+      ordersDiv.innerHTML = `
+        <div style="text-align:center; padding:50px; background:#fff; border-radius:8px;">
+          <h2>No Orders Found 📦</h2>
+          <p style="color:#666; margin-top:10px;">Looking like you haven't placed an order yet.</p>
+        </div>`;
       return;
     }
 
     querySnapshot.forEach((docSnap) => {
       const order = docSnap.data();
 
-      // Step Active / Completed Class Variables
-      let c1 = "", c2 = "", c3 = "", c4 = "";
+      // Tracker Step Active Logic
+      let step1 = "", step2 = "", step3 = "", step4 = "";
       let progressWidth = "0%";
-      let statusColor = "#038d63";
-      let statusIcon = "🟢";
 
-      // Meesho Horizontal Status Logic
       switch (order.status) {
-        case "Pending":
         case "Confirmed":
         case "Ordered":
-          c1 = "completed";
+        case "Pending":
+          step1 = "active";
           progressWidth = "0%";
-          statusColor = "#2196F3";
-          statusIcon = "🟢";
           break;
 
         case "Packed":
-          c1 = "completed";
-          c2 = "completed";
+          step1 = "active";
+          step2 = "active";
           progressWidth = "33%";
-          statusColor = "#9C27B0";
-          statusIcon = "📦";
           break;
 
         case "Shipped":
-          c1 = "completed";
-          c2 = "completed";
-          c3 = "completed";
+          step1 = "active";
+          step2 = "active";
+          step3 = "active";
           progressWidth = "66%";
-          statusColor = "#3F51B5";
-          statusIcon = "🚚";
           break;
 
         case "Out for Delivery":
         case "Delivered":
-          c1 = "completed";
-          c2 = "completed";
-          c3 = "completed";
-          c4 = "completed";
+          step1 = "active";
+          step2 = "active";
+          step3 = "active";
+          step4 = "active";
           progressWidth = "100%";
-          statusColor = "#038d63";
-          statusIcon = "✅";
           break;
 
         default:
-          c1 = "completed";
+          step1 = "active";
           progressWidth = "0%";
       }
 
-      // Products HTML Generation
+      // Generate Product Cards HTML
       let productsHTML = "";
-
       if (order.products && Array.isArray(order.products)) {
         order.products.forEach((product) => {
           productsHTML += `
-            <div class="card" style="margin-top:20px; border:1px solid #eee; padding:15px; border-radius:10px;">
-              <img src="${product.image}" style="width:100%; height:220px; object-fit:cover; border-radius:8px;">
-              <div class="card-content" style="margin-top:10px;">
-                <h2 style="font-size:18px; margin-bottom:5px;">${product.productName}</h2>
-                <p class="price" style="font-size:16px; font-weight:bold; color:#333;">₹${product.price}</p>
-                <p style="color:#666; font-size:14px;">${product.description || ''}</p>
-                <button onclick="window.location.href='invoice.html?id=${docSnap.id}'" style="margin-top:10px; background:#f0f0f0; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;">
-                  📄 View Invoice
-                </button>
+            <div class="product-item" style="display:flex; gap:15px; margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
+              <img src="${product.image}" alt="${product.productName}" style="width:90px; height:90px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+              <div class="product-details">
+                <h3 style="font-size:16px; margin-bottom:5px; color:#333;">${product.productName}</h3>
+                <p class="price" style="font-weight:bold; color:#b12704; font-size:15px;">₹${product.price}</p>
+                <p style="font-size:13px; color:#666; margin-top:4px;">${product.description || ''}</p>
               </div>
             </div>
           `;
         });
       }
 
-      // Main Card Dynamic HTML Render
+      // Safe Total Calculation (Fixes Total: ₹undefined)
+      const orderTotal = order.total !== undefined ? order.total : (order.totalPrice !== undefined ? order.totalPrice : 0);
+
+      // Render Clean Card UI
       ordersDiv.innerHTML += `
-        <div class="card" style="padding:20px; margin-bottom:30px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-          <h2 style="margin-bottom:10px; font-size:20px;">${order.customerName}</h2>
-          <p><b>Mobile:</b> ${order.mobile}</p>
-          <p><b>Address:</b> ${order.address}</p>
-          <p><b>Total:</b> ₹${order.total}</p>
+        <div class="order-card" style="background:#fff; border-radius:12px; padding:20px; margin-bottom:25px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+          <h2 style="font-size:20px; margin-bottom:10px;">${order.customerName || 'Customer'}</h2>
+          <p><b>Mobile:</b> ${order.mobile || ''}</p>
+          <p><b>Address:</b> ${order.address || ''}</p>
+          <p><b>Total:</b> ₹${orderTotal}</p>
 
-          <p style="margin-top:10px;">
-            <b>Status:</b>
-            <span style="background:${statusColor}; color:white; padding:4px 12px; border-radius:15px; font-weight:bold; font-size:13px; display:inline-block; margin-left:5px;">
-              ${statusIcon} ${order.status}
+          <!-- Status Header with Clean Green Badge (No Symbols) -->
+          <div style="display: flex; align-items: center; gap: 8px; margin: 12px 0;">
+            <b style="font-size: 15px;">Status:</b>
+            <span style="background: #038d63; color: white; padding: 4px 14px; border-radius: 15px; font-weight: bold; font-size: 13px;">
+              ${order.status}
             </span>
-          </p>
+          </div>
 
-          <!-- Meesho Style Progress Bar Tracker -->
-          <div class="status-tracker">
+          <!-- Amazon / Meesho Horizontal Tracking Bar -->
+          <div class="status-tracker" style="margin: 20px 0;">
             <div class="progress-bar">
               <div class="progress-line" style="width: ${progressWidth};"></div>
-              
-              <div class="step ${c1}">
+
+              <div class="step ${step1}">
                 <div class="circle"><i class="fa-solid fa-check"></i></div>
                 <span>Ordered</span>
               </div>
-              
-              <div class="step ${c2}">
+
+              <div class="step ${step2}">
                 <div class="circle"><i class="fa-solid fa-box"></i></div>
                 <span>Packed</span>
               </div>
 
-              <div class="step ${c3}">
+              <div class="step ${step3}">
                 <div class="circle"><i class="fa-solid fa-truck"></i></div>
                 <span>Shipped</span>
               </div>
 
-              <div class="step ${c4}">
+              <div class="step ${step4}">
                 <div class="circle"><i class="fa-solid fa-house"></i></div>
                 <span>Delivered</span>
               </div>
             </div>
           </div>
 
+          <!-- Products Render -->
           ${productsHTML}
         </div>
       `;
     });
 
   } catch (error) {
-    alert(error.message);
-    console.log(error);
+    console.error("Orders Fetch Error: ", error);
+    alert("Error fetching orders: " + error.message);
   }
 });
