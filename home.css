@@ -1,0 +1,58 @@
+/* Buttons Container */
+.buttons{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+margin-top:20px;
+}
+
+/* All Buttons */
+.buttons button{
+background:linear-gradient(135deg,#4F46E5,#7C3AED);
+color:#fff;
+border:none;
+padding:12px 20px;
+border-radius:12px;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 8px 20px rgba(79,70,229,.25);
+transition:.3s;
+}
+
+/* Hover */
+.buttons button:hover{
+transform:translateY(-3px);
+box-shadow:0 12px 25px rgba(79,70,229,.35);
+}
+
+/* Active */
+.buttons button:active{
+transform:scale(.95);
+}
+
+/* Wishlist Button */
+#wishlistBtn{
+background:linear-gradient(135deg,#FF416C,#FF4B2B);
+}
+
+/* Logout Button */
+#logoutBtn{
+background:linear-gradient(135deg,#FF512F,#DD2476);
+}
+
+/* Admin Button */
+#adminBtn{
+background:linear-gradient(135deg,#11998E,#38EF7D);
+}
+
+/* My Orders */
+#ordersBtn{
+background:linear-gradient(135deg,#2193b0,#6dd5ed);
+}
+
+/* Profile */
+#profileBtn{
+background:linear-gradient(135deg,#f7971e,#ffd200);
+color:#000;
+}
