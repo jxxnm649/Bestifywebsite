@@ -3,41 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bestify Home</title>
+  <title>Bestify Store</title>
+
+  <link rel="stylesheet" href="home.css">
 </head>
+
 <body>
 
-<h1>Welcome to Bestify Store 🎉</h1>
-<p id="welcome"></p>
-<p>Login Successful</p>
-  <div class="buttons">
+<div class="container">
 
-<button id="logoutBtn">🚪 Logout</button>
+    <h1>Welcome to Bestify Store 🎉</h1>
 
-<button id="profileBtn">👤 Profile</button>
+    <p id="welcome"></p>
 
-<button id="ordersBtn">📦 My Orders</button>
+    <p class="success">Login Successful ✅</p>
 
-<button id="adminBtn">🛠 Admin Panel</button>
+    <div class="buttons">
 
-<button id="wishlistBtn">❤️ Wishlist</button>
+        <button id="logoutBtn">
+            🚪 Logout
+        </button>
 
-  </div>
-<button id="logoutBtn">Logout</button>
+        <button onclick="window.location.href='profile.html'">
+            👤 Profile
+        </button>
 
-  <button onclick="window.location.href='profile.html'">
-Profile
-  </button>
-<button onclick="window.location.href='orders.html'">
-My Orders
-</button>
-  <button onclick="window.location.href='admin.html'">
-Admin Panel
-  </button>
-  <button onclick="window.location.href='wishlist.html'">
-❤️ Wishlist
-  </button>
+        <button onclick="window.location.href='orders.html'">
+            📦 My Orders
+        </button>
+
+        <button onclick="window.location.href='admin.html'">
+            🛠 Admin Panel
+        </button>
+
+        <button onclick="window.location.href='wishlist.html'">
+            ❤️ Wishlist
+        </button>
+
+    </div>
+
+</div>
+
+<script type="module" src="home.js"></script>
 <script type="module" src="logout.js"></script>
-  <script type="module" src="home.js"></script>
+
 </body>
 </html>
