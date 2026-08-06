@@ -1,58 +1,66 @@
-/* Buttons Container */
-.buttons{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-margin-top:20px;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
 }
 
-/* All Buttons */
-.buttons button{
-background:linear-gradient(135deg,#4F46E5,#7C3AED);
-color:#fff;
-border:none;
-padding:12px 20px;
-border-radius:12px;
-font-size:15px;
-font-weight:600;
-cursor:pointer;
-box-shadow:0 8px 20px rgba(79,70,229,.25);
-transition:.3s;
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .1);
+    text-align: center;
 }
 
-/* Hover */
-.buttons button:hover{
-transform:translateY(-3px);
-box-shadow:0 12px 25px rgba(79,70,229,.35);
+.success {
+    color: #4CAF50;
+    font-weight: bold;
 }
 
-/* Active */
-.buttons button:active{
-transform:scale(.95);
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
 }
 
-/* Wishlist Button */
-#wishlistBtn{
-background:linear-gradient(135deg,#FF416C,#FF4B2B);
+.buttons button {
+    border: none;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: .3s;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
 }
 
-/* Logout Button */
-#logoutBtn{
-background:linear-gradient(135deg,#FF512F,#DD2476);
+.buttons button:hover {
+    transform: translateY(-3px);
 }
 
-/* Admin Button */
-#adminBtn{
-background:linear-gradient(135deg,#11998E,#38EF7D);
+#logoutBtn {
+    background: linear-gradient(135deg,#ff512f,#dd2476);
 }
 
-/* My Orders */
-#ordersBtn{
-background:linear-gradient(135deg,#2193b0,#6dd5ed);
+#profileBtn {
+    background: linear-gradient(135deg,#f7971e,#ffd200);
+    color: black;
 }
 
-/* Profile */
-#profileBtn{
-background:linear-gradient(135deg,#f7971e,#ffd200);
-color:#000;
+#ordersBtn {
+    background: linear-gradient(135deg,#2193b0,#6dd5ed);
+}
+
+#adminBtn {
+    background: linear-gradient(135deg,#11998e,#38ef7d);
+}
+
+#wishlistBtn {
+    background: linear-gradient(135deg,#ff416c,#ff4b2b);
 }
