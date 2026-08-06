@@ -1,51 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bestify Store</title>
 
-  <link rel="stylesheet" href="home.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestify Store</title>
+
+    <link rel="stylesheet" href="home.css">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>Welcome to Bestify Store 🎉</h1>
+        <h1>Welcome to Bestify Store 🎉</h1>
 
-    <p id="welcome"></p>
+        <p id="welcome"></p>
 
-    <p class="success">Login Successful ✅</p>
+        <p class="success">Login Successful ✅</p>
 
-    <div class="buttons">
+        <div class="buttons">
 
-        <button id="logoutBtn">
-            🚪 Logout
-        </button>
+            <button id="logoutBtn">
+                🚪 Logout
+            </button>
 
-        <button onclick="window.location.href='profile.html'">
-            👤 Profile
-        </button>
+            <button id="profileBtn"
+                onclick="window.location.href='profile.html'">
+                👤 Profile
+            </button>
 
-        <button onclick="window.location.href='orders.html'">
-            📦 My Orders
-        </button>
+            <button id="ordersBtn"
+                onclick="window.location.href='orders.html'">
+                📦 My Orders
+            </button>
 
-        <button onclick="window.location.href='admin.html'">
-            🛠 Admin Panel
-        </button>
+            <button id="adminBtn"
+                onclick="window.location.href='admin.html'">
+                🛠 Admin Panel
+            </button>
 
-        <button onclick="window.location.href='wishlist.html'">
-            ❤️ Wishlist
-        </button>
+            <button id="wishlistBtn"
+                onclick="window.location.href='wishlist.html'">
+                ❤️ Wishlist
+            </button>
+
+        </div>
 
     </div>
 
-</div>
-
-<script type="module" src="home.js"></script>
-<script type="module" src="logout.js"></script>
+    <script type="module" src="home.js"></script>
+    <script type="module" src="logout.js"></script>
 
 </body>
+
 </html>
