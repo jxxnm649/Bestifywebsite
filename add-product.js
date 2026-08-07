@@ -1,46 +1,48 @@
 import { db } from "./firebase.js";
 
 import {
-    doc,
-    setDoc
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-import {
-  collection,
-  addDoc
+  doc,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const form = document.getElementById("productForm");
-  
-form.addEventListener("submit", async (event) => {
-    event.preventDefault();
 
-    const productName = document.getElementById("productName").value;
-    const price = document.getElementById("price").value;
-    const description = document.getElementById("description").value;
-    console.log(productName);
-console.log(price);
-console.log(description);
-console.log(document.getElementById("image").value);
-console.log(document.getElementById("category").value);
-    try {
+form.addEventListener("submit", async (e) => {
 
-        await setDoc(doc(db, "products", Date.now().toString()), {
+  e.preventDefault();
 
-    productName: productName,
-    price: price,
-    description: description,
-    image: document.getElementById("image").value,
-    category: document.getElementById("category").value,
-    createdAt: new Date()
+  const productName = document.getElementById("productName").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const image = document.getElementById("image").value.trim();
+  const category = document.getElementById("category").value.trim();
 
-});
+  console.log({
+    productName,
+    price,
+    description,
+    image,
+    category
+  });
 
-        alert("Product Added Successfully!");
+  try {
 
-        form.reset();
+    await setDoc(doc(db, "products", Date.now().toString()), {
+      productName,
+      price,
+      description,
+      image,
+      category,
+      createdAt: new Date()
+    });
 
-    } catch (error) {
-        alert(error.message);
-    }
+    alert("✅ Product Added Successfully");
+
+    form.reset();
+
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+
 });
