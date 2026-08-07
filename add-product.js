@@ -24,6 +24,13 @@ form.addEventListener("submit", async (e) => {
     image,
     category
   });
+  alert(
+`Name: ${productName}
+Price: ${price}
+Description: ${description}
+Image: ${image}
+Category: ${category}`
+);
 
   try {
 
