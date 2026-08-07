@@ -18,7 +18,11 @@ form.addEventListener("submit", async (event) => {
     const productName = document.getElementById("productName").value;
     const price = document.getElementById("price").value;
     const description = document.getElementById("description").value;
-
+    console.log(productName);
+console.log(price);
+console.log(description);
+console.log(document.getElementById("image").value);
+console.log(document.getElementById("category").value);
     try {
 
         await setDoc(doc(db, "products", Date.now().toString()), {
