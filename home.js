@@ -50,3 +50,49 @@ onAuthStateChanged(auth, async (user) => {
   }
 
 });
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+import { db } from "./firebase.js";
+
+const productContainer=document.getElementById("productContainer");
+
+async function loadProducts(){
+
+const snapshot=await getDocs(collection(db,"products"));
+
+snapshot.forEach((doc)=>{
+
+const p=doc.data();
+
+productContainer.innerHTML+=`
+
+<div class="product-card">
+
+<img src="${p.image}" alt="">
+
+<div class="product-info">
+
+<h3>${p.productName}</h3>
+
+<p>${p.description}</p>
+
+<div class="price">₹${p.price}</div>
+
+<button class="buy-btn">
+Buy Now
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+loadProducts();
