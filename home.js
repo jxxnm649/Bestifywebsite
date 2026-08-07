@@ -6,11 +6,15 @@ import {
 
 import {
   doc,
-  getDoc
+  getDoc,
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const welcome = document.getElementById("welcome");
+const productContainer = document.getElementById("productContainer");
 
+// User Details
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
@@ -27,15 +31,11 @@ onAuthStateChanged(auth, async (user) => {
 
       const data = docSnap.data();
 
-      welcome.innerHTML = `
-        👋 Welcome <b>${data.name}</b>
-      `;
+      welcome.innerHTML = `👋 Welcome <b>${data.name}</b>`;
 
     } else {
 
-      welcome.innerHTML = `
-        👋 Welcome ${user.email}
-      `;
+      welcome.innerHTML = `👋 Welcome <b>${user.email}</b>`;
 
     }
 
@@ -43,55 +43,71 @@ onAuthStateChanged(auth, async (user) => {
 
     console.log(error);
 
-    welcome.innerHTML = `
-      👋 Welcome ${user.email}
-    `;
+    welcome.innerHTML = `👋 Welcome <b>${user.email}</b>`;
 
   }
 
 });
-import {
-collection,
-getDocs
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-import { db } from "./firebase.js";
+// Load Products
+async function loadProducts() {
 
-const productContainer=document.getElementById("productContainer");
+  try {
 
-async function loadProducts(){
+    const snapshot = await getDocs(collection(db, "products"));
 
-const snapshot=await getDocs(collection(db,"products"));
+    console.log("Products Found :", snapshot.size);
 
-snapshot.forEach((doc)=>{
+    productContainer.innerHTML = "";
 
-const p=doc.data();
+    if (snapshot.empty) {
 
-productContainer.innerHTML+=`
+      productContainer.innerHTML = `
+      <h3 style="text-align:center;color:red;">
+      No Products Found
+      </h3>
+      `;
 
-<div class="product-card">
+      return;
+    }
 
-<img src="${p.image}" alt="">
+    snapshot.forEach((doc) => {
 
-<div class="product-info">
+      const p = doc.data();
 
-<h3>${p.productName}</h3>
+      productContainer.innerHTML += `
 
-<p>${p.description}</p>
+      <div class="product-card">
 
-<div class="price">₹${p.price}</div>
+        <img src="${p.image}" alt="${p.productName}">
 
-<button class="buy-btn">
-Buy Now
-</button>
+        <div class="product-info">
 
-</div>
+          <h3>${p.productName}</h3>
 
-</div>
+          <p>${p.description}</p>
 
-`;
+          <div class="price">₹${p.price}</div>
 
-});
+          <button class="buy-btn">
+            Buy Now
+          </button>
+
+        </div>
+
+      </div>
+
+      `;
+
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert("Error Loading Products");
+
+  }
 
 }
 
